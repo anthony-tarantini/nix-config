@@ -17,8 +17,7 @@
       # Nix
       nixd
 
-      # .NET
-      omnisharp-roslyn
+      # .NET: Roslyn LSP is pinned via userSettings.lsp.roslyn below
 
       # JS/TS/React
       nodejs
@@ -56,6 +55,14 @@
           language_servers = [ "basedpyright" "ruff" "!pyright" "!pylsp" "..." ];
           formatter.language_server.name = "ruff";
         };
+      };
+
+      # The C# extension downloads Roslyn from NuGet, which some networks
+      # block (e.g. work). Use the nixpkgs build instead; arguments match
+      # what the extension passes.
+      lsp.roslyn.binary = {
+        path = "${pkgs.roslyn-ls}/bin/Microsoft.CodeAnalysis.LanguageServer";
+        arguments = [ "--stdio" "--autoLoadProjects" ];
       };
     };
   };
