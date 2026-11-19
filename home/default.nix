@@ -1,8 +1,9 @@
 { pkgs, unstable, ... }:
 {
   imports = [
-    ./shell.nix
+    ./email.nix
     ./git.nix
+    ./shell.nix
     ./zed.nix
   ];
 

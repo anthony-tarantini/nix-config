@@ -15,6 +15,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Private GitHub repo shared by EVERY host (personal email, GitHub identity),
+    # kept out of this repo. Edit in a clone (~/.config/nix-private), commit and
+    # push, then `nix-update private`. Fetched over SSH as your user, so build
+    # with the nix-* helpers (nixos-rebuild --sudo), not plain `sudo`.
+    private = {
+      url = "git+ssh://git@github.com/anthony-tarantini/sensitive-nix-config.git";
+      flake = false;
+    };
+
     # Work-machine files kept out of Git (corporate CA certs).
     # Only hosts/work reads this input. Nix fetches inputs lazily, so other
     # hosts never need this folder unless they run a full `nix flake update`.

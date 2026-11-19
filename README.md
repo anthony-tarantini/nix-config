@@ -15,6 +15,7 @@ NixOS + Home Manager configuration for my machines, as a flake.
 ├── flake.lock
 ├── home/                  # Home Manager modules shared by every host
 │   ├── default.nix        #   CLI packages, t3code
+│   ├── email.nix          #   aerc; imports the personal account from nix-private
 │   ├── shell.nix          #   zsh, oh-my-zsh, starship, fzf, direnv, nix-* helpers
 │   ├── git.nix            #   git (name only), ssh, ssh-agent
 │   └── zed.nix            #   Zed + language servers
@@ -28,6 +29,30 @@ NixOS + Home Manager configuration for my machines, as a flake.
 `mkHost` in `flake.nix` builds each host from `hosts/common.nix`, `hosts/<name>/configuration.nix`, and Home Manager with `home/` plus `hosts/<name>/home.nix`. Values set in several places are combined by the NixOS module system. For example, `home/git.nix` sets the git name and the host sets the email.
 
 `unstable` (nixpkgs-unstable) and `inputs` are available as module arguments in both NixOS and Home Manager modules.
+
+## Shared private repo: `~/.config/nix-private`
+
+Personal values that **every** host needs, but that shouldn't be in this repo, live in a separate **private GitHub repo**. The flake fetches it over SSH through the `private` input (`flake = false`). The local clone at `~/.config/nix-private` is only for editing:
+
+```
+~/.config/nix-private/     # clone of the private repo, NOT part of this one
+├── email.nix              # HM module: personal email account (accounts.email.accounts.personal)
+└── git.nix                # HM module: commit email for any repo with a GitHub remote
+```
+
+- `home/email.nix` and `home/git.nix` import these files.
+- GitHub identity: repos whose remote is GitHub (SSH or HTTPS) commit with the personal email via git `includeIf "hasconfig:remote.*.url:…"`. Other repos use the host's default email. The SSH side (`~/.ssh/github` key, over port 443) is in the shared `home/git.nix`.
+- `flake.lock` pins a **commit** of that repo, not its contents.
+- Nix reads what's **pushed**, not your local edits. After editing:
+
+  ```sh
+  cd ~/.config/nix-private && git commit -am "..." && git push   # 1. commit + push there
+  nix-update private                                              # 2. bump the lock + rebuild
+  ```
+
+  Then commit the `flake.lock` change in this repo.
+- Other machines don't need a clone to build. Nix fetches the pinned commit itself, using your GitHub SSH key. That's why the `nix-*` helpers build as you (`nixos-rebuild --sudo`). A plain `sudo nixos-rebuild` would fetch as root, without your key.
+- It's **private, not secret**: fine for addresses and server names. Passwords stay in `pass` (`passwordCommand`).
 
 ## Machine-local files: `~/.config/nix-work`
 

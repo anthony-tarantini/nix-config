@@ -29,11 +29,15 @@
   environment.localBinInPath = true;
 
   hardware.graphics.enable = true;
+
+  # Email GUI (NixOS-level: also enables gnome-keyring + dconf). See home/email.nix.
+  programs.geary.enable = true;
   programs.nix-ld.enable = true;
 
   # Shell (login shell must be registered at the system level)
   programs.zsh.enable = true;
   programs.zsh.enableGlobalCompInit = false;
+
   users.users.${user}.shell = pkgs.zsh;
 
   # Home Manager (per-user modules are wired in flake.nix)

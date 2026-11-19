@@ -91,12 +91,29 @@
         "type": "github"
       }
     },
+    "private": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1795112727,
+        "narHash": "sha256-u0ir2vMySWek7GEt071xLJngzvXE3copJJABYWlvqd0=",
+        "ref": "refs/heads/main",
+        "rev": "68b4cabc8880586398f88edd2116c0f1aac0a296",
+        "revCount": 1,
+        "type": "git",
+        "url": "ssh://git@github.com/anthony-tarantini/sensitive-nix-config.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@github.com/anthony-tarantini/sensitive-nix-config.git"
+      }
+    },
     "root": {
       "inputs": {
         "home-manager": "home-manager",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
+        "private": "private",
         "work-local": "work-local"
       }
     },
