@@ -1,11 +1,12 @@
 # Work machine: NixOS-WSL on Windows.
-{ lib, inputs, user, ... }:
+{ lib, inputs, pkgs, user, ... }:
 {
   # WSL
   wsl.enable = true;
   wsl.defaultUser = user;
   wsl.useWindowsDriver = true;
   wsl.docker-desktop.enable = true;
+  wsl.extraBin = [ { src = "${pkgs.coreutils}/bin/test"; } ];
 
   # Corporate CA certificates, kept outside the repo (see `work-local` in flake.nix)
   security.pki.certificateFiles =

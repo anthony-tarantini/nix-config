@@ -27,6 +27,10 @@
   # System
   environment.pathsToLink = [ "/share/zsh" ];
   environment.localBinInPath = true;
+  environment.systemPackages = with pkgs; [
+    docker-client
+    docker-compose
+  ];
 
   hardware.graphics.enable = true;
 
