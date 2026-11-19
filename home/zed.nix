@@ -4,9 +4,11 @@
     enable = true;
 
     extensions = [
+      "bash"
       "csharp"
       "dockerfile"
       "docker-compose"
+      "eslint"
       "git-firefly"
       "nix"
       "toml"
@@ -55,6 +57,13 @@
           language_servers = [ "basedpyright" "ruff" "!pyright" "!pylsp" "..." ];
           formatter.language_server.name = "ruff";
         };
+      };
+
+      # Use Nix-packaged servers rather than the project PATH or downloads.
+      lsp.nixd.binary.path = "${pkgs.nixd}/bin/nixd";
+      lsp.eslint.binary = {
+        path = "${pkgs.vscode-langservers-extracted}/bin/vscode-eslint-language-server";
+        arguments = [ "--stdio" ];
       };
 
       # The C# extension downloads Roslyn from NuGet, which some networks
