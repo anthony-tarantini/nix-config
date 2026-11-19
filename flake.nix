@@ -9,10 +9,24 @@
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL/release-26.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Work-machine files kept out of Git (corporate CA certs).
+    # Only hosts/work reads this input. Nix fetches inputs lazily, so other
+    # hosts never need this folder unless they run a full `nix flake update`.
+    # After changing files there: `nix flake update work-local`.
+    work-local = {
+      url = "path:/home/nixos/.config/nix-work";
+      flake = false;
+    };
   };
 
   outputs =
-    { nixpkgs, nixpkgs-unstable, home-manager, ... }@inputs:
+    { nixpkgs, nixpkgs-unstable, home-manager, nixos-wsl, ... }@inputs:
     let
       mkHost =
         {
@@ -44,6 +58,12 @@
         };
     in
     {
-      nixosConfigurations = { };
+      nixosConfigurations = {
+        work = mkHost {
+          name = "work";
+          user = "nixos";
+          modules = [ nixos-wsl.nixosModules.default ];
+        };
+      };
     };
 }
