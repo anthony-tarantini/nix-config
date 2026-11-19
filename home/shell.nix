@@ -36,9 +36,11 @@
         exec zsh
       }
 
-      # nix-rebuild [nixos-rebuild args]: build and switch to the current config
+      # nix-rebuild [nixos-rebuild args]: build and switch to the current config.
+      # Evaluates and builds as you (so your Git/SSH access to private inputs
+      # works); --sudo only elevates the activation step.
       nix-rebuild() {
-        sudo nixos-rebuild switch --flake "$(_nix_flake_dir)#$(_nix_flake_host)" "$@" \
+        nixos-rebuild switch --sudo --flake "$(_nix_flake_dir)#$(_nix_flake_host)" "$@" \
           && _nix_reload_shell
       }
 
@@ -68,7 +70,7 @@
 
       # nix-revert: switch back to the previous system generation
       nix-revert() {
-        sudo nixos-rebuild switch --rollback && _nix_reload_shell
+        nixos-rebuild switch --sudo --rollback && _nix_reload_shell
       }
     '';
   };
