@@ -15,6 +15,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    catppuccin = {
+      url = "github:catppuccin/nix/release-26.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Private GitHub repo shared by EVERY host (personal email, GitHub identity),
     # kept out of this repo. Edit in a clone (~/.config/nix-private), commit and
     # push, then `nix-update private`. Fetched over SSH as your user, so build

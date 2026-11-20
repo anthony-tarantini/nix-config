@@ -17,6 +17,7 @@
       config = "zeditor ~/.config/nix";
       t3d = "setsid -f t3code-desktop >/dev/null 2>&1";
       rebuild = "nix-rebuild";
+      yolo = "opencode --auto";
     };
 
     # NixOS helpers. They act on the current host, which each host sets
