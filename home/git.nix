@@ -11,6 +11,16 @@
     # GitHub repos override it (see nix-private/git.nix)
   };
 
+  # Pager for git diff/log/show (and jj, see jujutsu.nix)
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
+    options = {
+      navigate = true; # n/N jump between files
+      line-numbers = true;
+    };
+  };
+
   services.ssh-agent.enable = true;
 
   programs.ssh = {

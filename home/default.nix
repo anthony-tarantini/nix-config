@@ -3,6 +3,7 @@
   imports = [
     ./email.nix
     ./git.nix
+    ./jujutsu.nix
     ./pass.nix
     ./shell.nix
     ./zed.nix

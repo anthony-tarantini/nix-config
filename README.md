@@ -17,7 +17,8 @@ NixOS + Home Manager configuration for my machines, as a flake.
 │   ├── default.nix        #   CLI packages, t3code
 │   ├── email.nix          #   aerc; imports the personal account from nix-private
 │   ├── shell.nix          #   zsh, oh-my-zsh, starship, fzf, direnv, nix-* helpers
-│   ├── git.nix            #   git (name only), ssh, ssh-agent
+│   ├── git.nix            #   git (name only), delta, ssh, ssh-agent
+│   ├── jujutsu.nix        #   jj (identity from git, delta pager)
 │   └── zed.nix            #   Zed + language servers
 └── hosts/
     ├── common.nix         # system settings shared by every host (nix, gc, zsh, HM wiring)
